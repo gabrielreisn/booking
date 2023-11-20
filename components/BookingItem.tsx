@@ -50,20 +50,30 @@ export function BookingItem({ startDate, endDate, destination }: Props) {
   if (isEditing) {
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <section className="flex p-3 border rounded-lg gap-4 items-center mt-4">
-          <Controller
-            name="calendar"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => <RangeCalendar {...field} />}
-          />
+        <section className="flex p-3 border rounded-lg gap-4 md:items-center mt-4 flex-col md:flex-row items-start">
+          <div className="flex w-full">
+            <Controller
+              name="calendar"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => <RangeCalendar {...field} />}
+            />
+            <div className="md:hidden flex items-center ml-auto">
+              <button className="mr-4" type="submit">
+                <CheckIcon />
+              </button>
+              <button onClick={() => setIsEditing(false)}>
+                <ClearIcon />
+              </button>
+            </div>
+          </div>
           <input
             {...register('tripName', { required: true })}
             placeholder="what's the next destination?"
             type="text"
-            className="block w-md flex-grow rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="block w-full md:w-md flex-grow rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
-          <div className="ml-auto">
+          <div className="ml-auto hidden md:flex">
             <button className="mr-4" type="submit">
               <CheckIcon />
             </button>
@@ -79,8 +89,8 @@ export function BookingItem({ startDate, endDate, destination }: Props) {
   return (
     <section className="flex p-3 border rounded-lg gap-4 items-center mt-4">
       <RangeCalendar disabled startDate={startDate} endDate={endDate} />
-      <p>{destination}</p>
-      <div className="ml-auto">
+      <p className="truncate">{destination}</p>
+      <div className="ml-auto flex">
         <button onClick={() => setIsEditing(true)} className="mr-4">
           <EditIcon />
         </button>
