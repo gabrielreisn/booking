@@ -2,7 +2,7 @@
 import '@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css';
 import 'react-calendar/dist/Calendar.css';
 
-import { useState } from 'react';
+import { Ref, createRef, forwardRef, useImperativeHandle, useState } from 'react';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 
 type ValuePiece = Date | null;
@@ -11,15 +11,25 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 type Props = {
   disabled?: boolean;
+  startDate?: Date;
+  endDate?: Date;
+  className?: string;
 };
 
-export function RangeCalendar(props: Props) {
-  const { disabled = false, ...otherProps } = props;
-  const [value, onChange] = useState<Value>([null, null]);
+function RangeCalendar(props: Props, ref: Ref<HTMLDivElement>) {
+  const { disabled = false, startDate = null, endDate = null, className, ...otherProps } = props;
+  const [value, onChange] = useState<Value>([startDate, endDate]);
+
+  // Forward the ref to the DateRangePicker component
+  const dateRangePickerRef = ref || createRef();
 
   return (
     <DateRangePicker
-      autoFocus
+      className={className}
+      locale="pt-BR"
+      inputRef={dateRangePickerRef}
+      showLeadingZeros
+      closeCalendar
       onChange={onChange}
       value={value}
       maxDetail="month"
@@ -37,3 +47,5 @@ export function RangeCalendar(props: Props) {
     />
   );
 }
+
+export default forwardRef(RangeCalendar);

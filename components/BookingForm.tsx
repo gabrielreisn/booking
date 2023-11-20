@@ -1,24 +1,10 @@
 'use client';
 
 import { useBooks } from '@/context/booking';
-import { RangeCalendar } from './Calendar';
+import RangeCalendar from './Calendar';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { isValid, set } from 'date-fns';
-import * as z from 'zod';
-
-type Inputs = {
-  calendar: [Date, Date];
-  tripName: string;
-};
-
-const schema = z.object({
-  tripName: z.string().min(3, { message: 'You must provide a name for your vacation!' }),
-  calendar: z.tuple([
-    z.date().refine(isValid, { message: 'Check in time must be provided.' }),
-    z.date().refine(isValid, { message: 'Check out time must be provided.' }),
-  ]),
-});
+import { BookingFormInputs, bookingFormSchema } from '@/schema';
 
 export function BookingForm() {
   const {
@@ -28,24 +14,24 @@ export function BookingForm() {
     formState: { errors },
     reset,
     setError,
-  } = useForm<Inputs>({
-    resolver: zodResolver(schema),
+  } = useForm<BookingFormInputs>({
+    resolver: zodResolver(bookingFormSchema),
   });
 
   const { addNewBooking } = useBooks();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<BookingFormInputs> = (data) => {
     const { calendar, tripName } = data;
 
-    const [checkIn, checkOut] = calendar;
+    const [startDate, endDate] = calendar;
 
     try {
       addNewBooking({
-        checkIn,
-        checkOut,
+        startDate,
+        endDate,
         destination: tripName,
       });
-      reset();
+      reset({ tripName: '', calendar: [null, null] as any });
     } catch (e: any) {
       setError('calendar', { type: 'custom', message: e.message });
     }

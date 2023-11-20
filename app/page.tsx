@@ -10,7 +10,12 @@ export default function Home() {
     <main className="p-4 w-full lg:max-w-3xl lg:p-24">
       <BookingForm />
       {Object.values(bookings).map((booking, i) => (
-        <BookingItem key={i} />
+        <BookingItem
+          key={i}
+          destination={booking.destination}
+          endDate={booking.endDate}
+          startDate={booking.startDate}
+        />
       ))}
     </main>
   );
