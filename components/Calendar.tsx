@@ -2,7 +2,7 @@
 import '@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css';
 import 'react-calendar/dist/Calendar.css';
 
-import { Ref, createRef, forwardRef, useImperativeHandle, useState } from 'react';
+import { Ref, createRef, forwardRef, useState } from 'react';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 
 type ValuePiece = Date | null;

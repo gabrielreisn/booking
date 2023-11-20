@@ -17,7 +17,7 @@ export function BookingItem({ startDate, endDate, destination }: Props) {
 
   const { deleteBooking, getBookingKey, updateBooking } = useBooks();
 
-  const { register, handleSubmit, control, setError } = useForm<BookingFormInputs>({
+  const { register, handleSubmit, control, setError, reset } = useForm<BookingFormInputs>({
     resolver: zodResolver(bookingFormSchema),
     defaultValues: {
       calendar: [startDate, endDate],
@@ -28,6 +28,11 @@ export function BookingItem({ startDate, endDate, destination }: Props) {
 
   function deleteBook() {
     deleteBooking(key);
+  }
+
+  function discardEditing() {
+    setIsEditing(false);
+    reset();
   }
 
   const onSubmit: SubmitHandler<BookingFormInputs> = (data) => {
@@ -62,7 +67,7 @@ export function BookingItem({ startDate, endDate, destination }: Props) {
               <button className="mr-4" type="submit">
                 <CheckIcon />
               </button>
-              <button onClick={() => setIsEditing(false)}>
+              <button onClick={discardEditing}>
                 <ClearIcon />
               </button>
             </div>
@@ -77,7 +82,7 @@ export function BookingItem({ startDate, endDate, destination }: Props) {
             <button className="mr-4" type="submit">
               <CheckIcon />
             </button>
-            <button onClick={() => setIsEditing(false)}>
+            <button onClick={discardEditing}>
               <ClearIcon />
             </button>
           </div>
