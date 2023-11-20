@@ -2,26 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+
+/* Overrides for react-calendar default-styles */
+.react-daterange-picker--disabled {
+  background-color: white !important;
+  color: currentColor !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.react-daterange-picker__wrapper {
+  border: none !important;
+  text-align: center;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.react-calendar__navigation__label:disabled{
+  background-color: white !important;
+}
+
+.react-calendar {
+  border: none !important;
+  outline: 1px solid;
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.react-daterange-picker__inputGroup__input:invalid{
+  background: white !important;
+}
+
+.react-calendar__month-view__days__day--weekend{
+  color: currentColor !important;
+}
+
+/* #4f46e5: tailwind indigo-500*/
+.react-calendar__tile--active{
+  background-color:#4f46e5 !important;
 }
